@@ -1,7 +1,5 @@
 #!/usr/bin/env/python3
 import rospy
-from std_msgs.msg import String
-import cv2
 from inference_sdk import InferenceHTTPClient
 
 class ShapeRecognition:
