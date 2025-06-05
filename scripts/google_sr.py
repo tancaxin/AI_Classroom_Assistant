@@ -4,11 +4,29 @@ from std_msgs.msg import String
 import speech_recognition as sr
 import sounddevice
 
+is_speaking = False
+
+def tts_status_callback(msg):
+    global is_speaking
+    is_speaking = (msg.data == "speaking")
+
 def googlesr():
+    global is_speaking
+
     rospy.init_node('google_sr', anonymous=True)
     pub = rospy.Publisher('result', String, queue_size=10)
 
+    rospy.Subscriber("tts_status", String, tts_status_callback)
+
     while not rospy.is_shutdown():
+
+        # Check if TTS is speaking
+        if is_speaking:
+            rospy.sleep(1)  # Wait and check again
+            continue
+        
+        rospy.loginfo("Listening...")
+
         # obtain audio from the microphone
         r = sr.Recognizer()
         
