@@ -49,6 +49,9 @@ class RecognitionController:
         rospy.Subscriber("result", String, self.process_speech)
         rospy.Subscriber("camera/image_raw", Image, self.process_image)
 
+        self.pub.publish("Hello! I'm your AI classroom assistant. Let's have fun learning shapes and colours together!")
+
+
     #Receive from image_raw node, process to .jpg to be compatible for the recognition models
     #Need check if want to unsubscribe to "camera/image_raw" or "result" topic first or not(when going through the following process)
     def process_image(self, img_msg):
