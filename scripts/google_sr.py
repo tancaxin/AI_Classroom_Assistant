@@ -2,6 +2,7 @@
 import rospy
 from std_msgs.msg import String
 import speech_recognition as sr
+import sounddevice
 
 def googlesr():
     rospy.init_node('google_sr', anonymous=True)
