@@ -5,8 +5,8 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 
-from shape_recognition import ShapeRecognition
-from colour_recognition import ColourRecognition
+from shape_recognition import recognize_shape
+from colour_recognition import recognize_colour
 
 from openai import OpenAI
 import os
@@ -40,10 +40,6 @@ class RecognitionController:
         self.bridge = CvBridge()
 
         self.latest_image = None
-        self.intent = None
-
-        self.shape_recognizer = ShapeRecognition()
-        self.colour_recognizer = ColourRecognition()
 
         rospy.Subscriber("result", String, self.process_speech)
         rospy.Subscriber("camera/image_raw", Image, self.process_image)
@@ -72,13 +68,14 @@ class RecognitionController:
         cv2.imwrite(temp_path, self.latest_image)
 
         # Run shape and color recognition
-        shape = self.shape_recognizer.run(temp_path)
-        color = self.colour_recognizer.run(temp_path)
+        shape = recognize_shape(temp_path)
+        
+        colour = recognize_colour(temp_path)
 
-        rospy.loginfo(f"Detected shape: {shape}, color: {color}")
+        rospy.loginfo(f"Detected shape: {shape}, color: {colour}")
 
         # Use OpenAI to generate response
-        response = self.query_openai(user_text, shape, color)
+        response = self.query_openai(user_text, shape, colour)
         rospy.loginfo(f"Generated response: {response}")
 
         self.pub.publish(response)

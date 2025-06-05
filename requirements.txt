@@ -2,3 +2,5 @@ inference_sdk
 gtts
 opencv-python
 SpeechRecognition
+openai
+rospkg
