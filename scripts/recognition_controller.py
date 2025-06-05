@@ -12,8 +12,7 @@ from openai import OpenAI
 import os
 
 client = OpenAI(
-    # This is the default and can be omitted
-    api_key="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"
+    api_key="API-KEY"
 )
 
 SYSTEM_PROMPT = """You are a friendly and knowledgeable classroom assistant for young children (ages 4–8). You will receive the question regarding object(showed to the camera of the device) from the child, the detected colour, and the detected shape of the object. You need respond with a short, cheerful explanation.
