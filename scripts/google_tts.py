@@ -16,7 +16,7 @@ def callback(data):
 
     # Notify google_sr the tts is speaking
     tts_status_pub.publish("speaking")
-    rospy.loginfo("TTS is speaking... mic muted.")
+    rospy.loginfo("TTS is speaking")
 
 
     tts = gTTS(text, lang="en-US")
@@ -27,13 +27,15 @@ def callback(data):
 
     # Notify that tts done
     tts_status_pub.publish("idle")
+    rospy.loginfo("Done speaking")
+
     
 def googletts():
     global tts_status_pub
 
     rospy.init_node('google_tts', anonymous=True)
 
-    tts_status_pub = rospy.Publisher("tts_status", String, queue_size=1)
+    tts_status_pub = rospy.Publisher("tts_status", String, queue_size=1, latch=True)
 
     # Greet user once
     callback("Hello! I'm your AI classroom assistant. Let's have fun learning shapes and colours together!")

@@ -4,7 +4,7 @@ from inference_sdk import InferenceHTTPClient
 import requests
 
 
-def recognize_colour(self, image):
+def recognize_colour(image):
 
         # "https://serverless.roboflow.com/[model_id]?api_key=[your api key]"
     url = "https://serverless.roboflow.com/warna-6iofs-szvec/3?api_key=e68JMBCA09kOCyfJY0Sj"
@@ -17,7 +17,7 @@ def recognize_colour(self, image):
 
     if result.status_code == 200:
         data = result.json()
-        predictions = result.get("predictions", [])
+        predictions = data.get("predictions", [])
 
     if predictions:
         # Get the prediction with the highest confidence

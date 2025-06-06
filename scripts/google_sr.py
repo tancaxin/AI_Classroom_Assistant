@@ -4,11 +4,13 @@ from std_msgs.msg import String
 import speech_recognition as sr
 import sounddevice
 
-is_speaking = False
+is_speaking = True
 
 def tts_status_callback(msg):
     global is_speaking
     is_speaking = (msg.data == "speaking")
+    if not is_speaking:
+        rospy.sleep(2)  # Wait a bit before resume recognising to avoid picking up its own speech
 
 def googlesr():
     global is_speaking
@@ -18,12 +20,13 @@ def googlesr():
 
     rospy.Subscriber("tts_status", String, tts_status_callback)
 
-    while not rospy.is_shutdown():
+    # # Check if TTS is speaking
+    # while is_speaking:
+    #     rospy.loginfo("TTS is speaking, mic muted")
+    #     rospy.sleep(0.5)  # Wait and check again
+        
 
-        # Check if TTS is speaking
-        if is_speaking:
-            rospy.sleep(1)  # Wait and check again
-            continue
+    while not rospy.is_shutdown() and not is_speaking:
         
         rospy.loginfo("Listening...")
 
@@ -31,7 +34,7 @@ def googlesr():
         r = sr.Recognizer()
         
         with sr.Microphone(device_index=0) as source:
-            print(">>> Say something!")
+            # print(">>> Say something!")
             r.adjust_for_ambient_noise(source)
             audio = r.listen(source)
             # audio = r.record(source, duration=5)

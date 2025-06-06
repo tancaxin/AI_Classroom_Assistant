@@ -17,7 +17,7 @@ def recognize_shape(image):
 
     if result.status_code == 200:
         data = result.json()
-        predictions = result.get("predictions", [])
+        predictions = data.get("predictions", [])
 
     if predictions:
         # Get the prediction with the highest confidence

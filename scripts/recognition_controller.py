@@ -55,6 +55,8 @@ class RecognitionController:
     def process_speech(self, msg):
 
         user_text = msg.data
+        rospy.loginfo("SR result: " + user_text)
+
 
         if self.latest_image is None:
             rospy.logwarn("No image received yet.")
