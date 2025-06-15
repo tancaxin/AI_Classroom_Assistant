@@ -37,9 +37,6 @@ def googletts():
 
     tts_status_pub = rospy.Publisher("tts_status", String, queue_size=1, latch=True)
 
-    # Greet user once
-    callback("Hello! I'm your AI classroom assistant. Let's have fun learning shapes and colours together!")
-
     rospy.Subscriber("response_topic", String, callback)
 
     rospy.spin()

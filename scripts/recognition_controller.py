@@ -35,7 +35,7 @@ class RecognitionController:
 
     def __init__(self):
         rospy.init_node("recognition_controller_node")
-        self.pub = rospy.Publisher('response_topic', String, queue_size=10)
+        self.pub = rospy.Publisher('response_topic', String, queue_size=10, latch=True)
 
         self.bridge = CvBridge()
 
@@ -43,6 +43,10 @@ class RecognitionController:
 
         rospy.Subscriber("result", String, self.process_speech)
         rospy.Subscriber("/usb_cam/image_raw", Image, self.process_image)
+
+        #greet user once
+        greet = "Hello! I'm your AI classroom assistant. Let's have fun learning shapes and colours together!"
+        self.pub.publish(greet)
 
 
 
