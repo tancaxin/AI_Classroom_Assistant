@@ -41,14 +41,27 @@ class RecognitionController:
 
         self.latest_image = None
 
-        rospy.Subscriber("result", String, self.process_speech)
+        self.speech_subscriber = None
         rospy.Subscriber("/usb_cam/image_raw", Image, self.process_image)
-
+        rospy.Subscriber("tts_status", String, self.subscribe_controller)
         #greet user once
         greet = "Hello! I'm your AI classroom assistant. Let's have fun learning shapes and colours together!"
         self.pub.publish(greet)
+        rospy.sleep(1)
 
 
+    def subscribe_controller(self, msg):
+        is_speaking = (msg.data == "speaking")
+        if self.speech_subscriber is not None:
+            if is_speaking:
+                self.speech_subscriber.unregister()
+                self.speech_subscriber = None
+                rospy.loginfo("Unsubscribed from /result topic")
+        elif self.speech_subscriber is None:
+            if not is_speaking:              
+                rospy.sleep(2)  # Wait a bit before resubscribing to avoid picking up its own speech
+                self.speech_subscriber = rospy.Subscriber("result", String, self.process_speech)
+                rospy.loginfo("Subscribed to /result topic")
 
     #Receive from image_raw node, process to .jpg to be compatible for the recognition models
     #Need check if want to unsubscribe to "camera/image_raw" or "result" topic first or not(when going through the following process)

@@ -26,28 +26,29 @@ def googlesr():
     #     rospy.sleep(0.5)  # Wait and check again
         
 
-    while not rospy.is_shutdown() and not is_speaking:
+    while not rospy.is_shutdown():
         
-        rospy.loginfo("Listening...")
+        if not is_speaking:
+            rospy.loginfo("Listening...")
 
-        # obtain audio from the microphone
-        r = sr.Recognizer()
-        
-        with sr.Microphone(device_index=0) as source:
-            # print(">>> Say something!")
-            r.adjust_for_ambient_noise(source)
-            audio = r.listen(source)
-            # audio = r.record(source, duration=5)
+            # obtain audio from the microphone
+            r = sr.Recognizer()
             
-        # recognize speech using Google Speech Recognition
-        try:
-            result = r.recognize_google(audio, language="en-US")
-            print("SR result: " + result)
-            pub.publish(result)
-        except sr.UnknownValueError:
-            print("SR could not understand audio")
-        except sr.RequestError as e:
-            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+            with sr.Microphone(device_index=0) as source:
+                # print(">>> Say something!")
+                r.adjust_for_ambient_noise(source)
+                audio = r.listen(source)
+                # audio = r.record(source, duration=5)
+                
+            # recognize speech using Google Speech Recognition
+            try:
+                result = r.recognize_google(audio, language="en-US")
+                print("SR result: " + result)
+                pub.publish(result)
+            except sr.UnknownValueError:
+                print("SR could not understand audio")
+            except sr.RequestError as e:
+                print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
 if __name__ == "__main__":
     try:

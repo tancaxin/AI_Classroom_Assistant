@@ -7,7 +7,7 @@ import requests
 def recognize_colour(image):
 
         # "https://serverless.roboflow.com/[model_id]?api_key=[your api key]"
-    url = "https://serverless.roboflow.com/colours-rtjqy-wjzzm/1/3?api_key=e68JMBCA09kOCyfJY0Sj"
+    url = "https://serverless.roboflow.com/colours-rtjqy-wjzzm/1?api_key=e68JMBCA09kOCyfJY0Sj"
 
     with open(image, "rb") as image_file:
         result = requests.post(
