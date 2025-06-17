@@ -10,7 +10,9 @@ def tts_status_callback(msg):
     global is_speaking
     is_speaking = (msg.data == "speaking")
     if not is_speaking:
-        rospy.sleep(2)  # Wait a bit before resume recognising to avoid picking up its own speech
+        rospy.sleep(5)  # Wait a bit before resume recognising to avoid picking up its own speech
+    elif is_speaking:
+        rospy.loginfo("Robot speaking, mic muted...")
 
 def googlesr():
     global is_speaking
