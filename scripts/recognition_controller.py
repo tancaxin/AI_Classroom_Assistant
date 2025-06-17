@@ -52,12 +52,8 @@ class RecognitionController:
 
     def subscribe_controller(self, msg):
         is_speaking = (msg.data == "speaking")
-        if self.speech_subscriber is not None:
-            if is_speaking:
-                self.speech_subscriber.unregister()
-                self.speech_subscriber = None
-                rospy.loginfo("Unsubscribed from /result topic")
-        elif self.speech_subscriber is None:
+        if self.speech_subscriber is None:
+            #subscibe back to google sr after done speaking
             if not is_speaking:              
                 rospy.sleep(5)  # Wait a bit before resubscribing to avoid picking up its own speech
                 self.speech_subscriber = rospy.Subscriber("result", String, self.process_speech)
@@ -70,6 +66,11 @@ class RecognitionController:
 
 
     def process_speech(self, msg):
+
+        #prevent receiving two speech
+        self.speech_subscriber.unregister()
+        self.speech_subscriber = None
+        rospy.loginfo("Unsubscribed from /result topic")
 
         user_text = msg.data
         rospy.loginfo("SR result: " + user_text)
