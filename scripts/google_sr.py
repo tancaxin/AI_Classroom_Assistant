@@ -20,11 +20,6 @@ def googlesr():
 
     rospy.Subscriber("tts_status", String, tts_status_callback)
 
-    # # Check if TTS is speaking
-    # while is_speaking:
-    #     rospy.loginfo("TTS is speaking, mic muted")
-    #     rospy.sleep(0.5)  # Wait and check again
-        
 
     while not rospy.is_shutdown():
         
@@ -35,7 +30,6 @@ def googlesr():
             r = sr.Recognizer()
             
             with sr.Microphone(device_index=0) as source:
-                # print(">>> Say something!")
                 r.adjust_for_ambient_noise(source)
                 audio = r.listen(source)
                 # audio = r.record(source, duration=5)
@@ -53,7 +47,6 @@ def googlesr():
 if __name__ == "__main__":
     try:
         print(f"Available mics: {sr.Microphone.list_microphone_names()}")
-        # rospy.loginfo(f"Available mics: {sr.Microphone.list_microphone_names()}")
         googlesr()
     except rospy.ROSInterruptException:
         pass

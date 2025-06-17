@@ -59,7 +59,7 @@ class RecognitionController:
                 rospy.loginfo("Unsubscribed from /result topic")
         elif self.speech_subscriber is None:
             if not is_speaking:              
-                rospy.sleep(2)  # Wait a bit before resubscribing to avoid picking up its own speech
+                rospy.sleep(5)  # Wait a bit before resubscribing to avoid picking up its own speech
                 self.speech_subscriber = rospy.Subscriber("result", String, self.process_speech)
                 rospy.loginfo("Subscribed to /result topic")
 
