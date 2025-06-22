@@ -59,7 +59,12 @@ $ pip install -r requirements.txt
    1. Open ``` recognition_controller.py ```.
    2. Find the line with "API_KEY" replace it with the actual API key provided.
    3. Save the file.
-2. Open 5 separate terminals, and run the following commands (one per terminal).
+2. Open a terminal, and run the following code:
+```
+$ roslaunch ai_assistant ai_assistant.launch
+```
+#### OR
+Open 5 separate terminals, and run the following commands (one per terminal).
 ```
 $ conda activate yourenvname
 $ roscore
