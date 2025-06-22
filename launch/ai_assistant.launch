@@ -1,7 +1,7 @@
 <launch>
   <include file="$(find usb_cam)/launch/usb_cam-test.launch"/>
 
-  <node name="recognition_controller" pkg="ai_assistant" type="recognition_controller.py"/>
+  <node name="recognition_controller" pkg="ai_assistant" type="recognition_controller.py" output="screen"/>
   <node name="google_tts" pkg="ai_assistant" type="google_tts.py"/>
   <node name="google_sr" pkg="ai_assistant" type="google_sr.py"/>
 </launch>
