@@ -6,7 +6,7 @@ import requests
 
 def recognize_shape(image):
 
-        # "https://serverless.roboflow.com/[model_id]?api_key=[your api key]"
+    # # call Roboflow api "https://serverless.roboflow.com/[model_id]?api_key=[your api key]"
     url = "https://serverless.roboflow.com/2d-geometry-figures-wdc1b/2?api_key=e68JMBCA09kOCyfJY0Sj"
 
     with open(image, "rb") as image_file:

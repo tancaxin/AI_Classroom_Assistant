@@ -8,9 +8,9 @@ is_speaking = True
 
 def tts_status_callback(msg):
     global is_speaking
-    is_speaking = (msg.data == "speaking")
+    is_speaking = (msg.data == "speaking") #update is_speaking upon receiving message from tts publisher
     if not is_speaking:
-        rospy.loginfo("Robot done speaking...")  # Wait a bit before resume recognising to avoid picking up its own speech
+        rospy.loginfo("Robot done speaking...")
     elif is_speaking:
         rospy.loginfo("Robot speaking...")
 
@@ -25,6 +25,8 @@ def googlesr():
 
     while not rospy.is_shutdown():
         
+        #only do speech recognition when robot not speaking 
+        #to avoid picking up its own speech
         if not is_speaking:
             rospy.loginfo("Listening...")
 
@@ -34,7 +36,6 @@ def googlesr():
             with sr.Microphone(device_index=0) as source:
                 r.adjust_for_ambient_noise(source)
                 audio = r.listen(source)
-                # audio = r.record(source, duration=5)
                 
             # recognize speech using Google Speech Recognition
             try:

@@ -14,7 +14,7 @@ def callback(data):
 
     text = data.data
 
-    # Notify google_sr the tts is speaking
+    # Notify other nodes that the tts is speaking
     tts_status_pub.publish("speaking")
     rospy.loginfo("TTS is speaking")
 
